@@ -941,4 +941,61 @@ export default {
                           url:u,
                           error:String(e)
                         })+"\n"
- 
+                      )
+                    );
+                  }
+                }
+              )
+
+            ).then(
+              ()=>controller.close()
+            ).catch(
+              e=>controller.error(e)
+            );
+          }
+        });
+
+        return new Response(
+          stream,
+          {
+            status:200,
+            headers:{
+              ...cors(),
+              "Content-Type":
+                "application/x-ndjson; charset=utf-8",
+              "Cache-Control":
+                "no-cache"
+            }
+          }
+        );
+
+      }catch(e){
+
+        return json(
+          {
+            error:"Invalid request",
+            detail:String(e)
+          },
+          400
+        );
+      }
+    }
+
+    /*
+      Main website.
+    */
+    return new Response(
+      HTML,
+      {
+        status:200,
+        headers:{
+          ...cors(),
+          "Content-Type":
+            "text/html;charset=utf-8",
+          "Cache-Control":
+            "no-cache"
+        }
+      }
+    );
+  }
+};
